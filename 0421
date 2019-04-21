@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 train_X = np.linspace(-1, 1, 100)
-train_Y = 2 * train_X + np.random.randn(*train_X.shape) * 0.3
+train_Y = 2 * train_X + np.random.randn(*train_X.shape) * 0.9
 plt.plot(train_X, train_Y, 'ro', label='Original data')
 plt.legend()
 plt.show()
@@ -40,6 +40,7 @@ with tf.Session() as sess:
                 plotdata["loss"].append(loss)
     print("Finished!")
     print("cost=", sess.run(cost, feed_dict={X: train_X, Y: train_Y}), "W=", sess.run(W), "b=", sess.run(b))
+
     plt.plot(train_X, train_Y, 'ro', label='Original data')
     plt.plot(train_X, sess.run(W) * train_X + sess.run(b), label='Fittedline')
     plt.legend()
@@ -53,5 +54,5 @@ with tf.Session() as sess:
     plt.title('Minibatch run vs.Training loss')
     plt.show()
 
-print("x=0.2,z=", sess.run(z, feed_dict={X: 0.2}))
+print ("x=0.2,z=", sess.run(z, feed_dict={X: 0.2}))
 
