@@ -1,5 +1,5 @@
 plotdata={"batchsize":[],"loss":[]}
-def moving_average(a,w=10):
+def moving_average(a,w=50):
     if len(a)<w:
         return a[:]
     return [val if idx<w else sum(a[(idx-w):idx])/w for idx,val in enumerate(a)]
@@ -8,7 +8,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
-train_X = np.linspace(-1, 1, 100)
+train_X = np.linspace(-1, 1, 200)
 train_Y = 2 * train_X + np.random.randn(*train_X.shape) * 0.9
 plt.plot(train_X, train_Y, 'ro', label='Original data')
 plt.legend()
@@ -20,12 +20,12 @@ W = tf.Variable(tf.random_normal([1]), name="weight")
 b = tf.Variable(tf.zeros([1]), name="bias")
 z = tf.multiply(X, W) + b
 cost = tf.reduce_mean(tf.square(Y - z))
-learning_rate = 0.01
+learning_rate = 0.001
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
 init = tf.global_variables_initializer()
-training_epochs = 20
-display_step = 2
+training_epochs = 50
+display_step =1
 with tf.Session() as sess:
     sess.run(init)
     plotdata = {"batchsize": [], "loss": []}
@@ -54,5 +54,5 @@ with tf.Session() as sess:
     plt.title('Minibatch run vs.Training loss')
     plt.show()
 
-print ("x=0.2,z=", sess.run(z, feed_dict={X: 0.2}))
+    print ("x=0.2,z=", sess.run(z, feed_dict={X: 0.2}))
 
